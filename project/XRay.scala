@@ -9,6 +9,7 @@ object XRay extends Build
 		version := "0.2.8-SNAPSHOT",
 		scalaVersion := "2.9.1",
 		crossScalaVersions ++= Seq("2.9.0-1","2.8.1"),
+		scalacOptions ++= Seq("-deprecation","-unchecked"),
 		ivyConfigurations += js,
 		libraryDependencies ++= dependencies,
 		libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ % "provided"),
