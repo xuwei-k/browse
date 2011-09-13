@@ -78,7 +78,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
 		val sortedRelativePaths = wrap.Wrappers.treeSet[String]
 		sortedRelativePaths ++= rawRelativePaths
 		FileUtil.withWriter(to) { out =>
-			out.write("<html><body>")
+			out.write("""<html><head><meta http-equiv="Expires" content="0" /></head><body>""")
 			sortedRelativePaths.foreach(writeEntry(to, out))
 			out.write("</body></html>")
 		}

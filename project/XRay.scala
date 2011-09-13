@@ -7,16 +7,14 @@ object XRay extends Build
 		name := "sxr",
 		organization := "org.scala-tools.sxr",
 		version := "0.2.8-SNAPSHOT",
-		scalaVersion := "2.9.0-1",
-		crossScalaVersions += "2.8.1",
+		scalaVersion := "2.9.1",
+		crossScalaVersions ++= Seq("2.9.0-1","2.8.1"),
 		ivyConfigurations += js,
 		libraryDependencies ++= dependencies,
 		libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ % "provided"),
 		jqueryAll <<= target(_ / "jquery-all.js"),
 		combineJs <<= combineJquery,
-		resourceGenerators in Compile <+= combineJs.identity,
-		credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
-		publishTo := Some( "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/" )
+		resourceGenerators in Compile <+= combineJs.identity
 	)
 
 	val js = config("js") hide
