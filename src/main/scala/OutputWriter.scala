@@ -9,24 +9,24 @@ import java.net.URL
 
 /** The contract required to handle a specific format */
 trait OutputWriter {
-	/** Generates initial content. */
-	def writeStart(): Unit
+  /** Generates initial content. */
+  def writeStart(): Unit
 
-	/** Generates content for a given source file. */
-	def writeUnit(sourceFile: File, relativeSourcePath: String, tokenList: List[Token]): Unit
+  /** Generates content for a given source file. */
+  def writeUnit(sourceFile: File, relativeSourcePath: String, tokenList: List[Token]): Unit
 
-	/** Generates final content. */
-	def writeEnd(): Unit
+  /** Generates final content. */
+  def writeEnd(): Unit
 }
 
 /** The initial data passed at writer construction */
 class OutputWriterContext(val sourceFiles: List[File],
-	val outputDirectory: File,
-	val encoding: String,
-	val externalLinkURLs: List[URL])
+  val outputDirectory: File,
+  val encoding: String,
+  val externalLinkURLs: List[URL])
 
 class OutputInfo(val outputDirectory: File, val outputFileExtension: String)
 {
-	def getOutputFile(relativeSourcePath: String) =
-		new File(outputDirectory, relativeSourcePath + outputFileExtension)
+  def getOutputFile(relativeSourcePath: String) =
+    new File(outputDirectory, relativeSourcePath + outputFileExtension)
 }
