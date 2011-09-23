@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <meta http-equiv="Expires" content="0" />
+        <title>Token.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/* sxr -- Scala X-Ray
+ * Copyright 2009 Mark Harrah
+ */</span>
+
+<span class="keyword">package</span> sxr
+
+<span class="comment">/** Represents a link to a definition.  The path is the relative path to the file in the source
+* directory, target is the symbol ID targeted. stableID is an identifier that will survive
+* successive sxr runs (only used for public symbols).
+* Specific writers need to construct the actual path from these informations (e.g in
+* HtmlWriter, add '.html' to get the relative path of the target HTML file, and append the
+* ID separated by a '#'. */</span>
+<span class="keyword">private</span> <span class="keyword">class</span> <a title="class Link extends java.lang.Object with NotNull with ScalaObject" id="9488">Link</a><a href="#9488" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="String" id="48235">path</a>: <span title="String">String</span>, <span class="keyword">val</span> <a title="Int" id="48236">target</a>: <span title="Int">Int</span>, <span class="keyword">val</span> <a title="Option[String]" id="48237">stableID</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="NotNull">NotNull</span>
+<span class="delimiter">{</span>
+  <span class="comment">// This can still be useful for debugging, but must not be used directly by a writer.</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="47944">toString</a> = <a href="#48235" title="=&gt; String">path</a> <span title="(x$1: Any)java.lang.String">+</span> <span title="java.lang.String(&quot;#&quot;)" class="string">&quot;#&quot;</span> <span title="(x$1: Any)java.lang.String">+</span> <a href="#48236" title="=&gt; Int">target</a>
+  <span class="keyword">def</span> <a title="(newTarget: Int)sxr.Link" id="47945">retarget</a><span class="delimiter">(</span><a title="Int" id="48232">newTarget</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <span title="sxr.Link" class="keyword">new</span> <a href="#9488" title="sxr.Link">Link</a><span class="delimiter">(</span><a href="#48235" title="=&gt; String">path</a>, <a href="#48232" title="Int">newTarget</a>, <a href="#48237" title="=&gt; Option[String]">stableID</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+<span class="comment">/** Represents a token at the lexer level with associated type information.
+* 'start' is the offset of the token in the original source file.
+* 'length' is the length of the token in the original source file
+* 'code' is the class of the token (see Tokens in the compiler)*/</span>
+<span class="keyword">private</span> case <span class="keyword">class</span> <a title="class Token extends java.lang.Object with NotNull with Ordered[sxr.Token] with java.lang.Comparable[sxr.Token] with ScalaObject with Product with Serializable" id="58948">Token</a><a href="#58948" title="ScalaObject" class="delimiter">(</a><a title="Int" id="58836">start</a>: <span title="Int">Int</span>, <a title="Int" id="58837">length</a>: <span title="Int">Int</span>, <a title="Int" id="58838">code</a>: <span title="Int">Int</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="NotNull">NotNull</span> <span class="keyword">with</span> <span title="Ordered[sxr.Token]">Ordered</span><span class="delimiter">[</span>Token<span class="delimiter">]</span> <span class="keyword">with</span> <span title="java.lang.Comparable[sxr.Token]">Comparable</span><span class="delimiter">[</span>Token<span class="delimiter">]</span>
+<span class="delimiter">{</span>
+  <span title="(requirement: Boolean)Unit">require</span><span class="delimiter">(</span><a href="#58836" title="=&gt; Int">start</a> <span title="(x: Int)Boolean">&gt;=</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+  <span title="(requirement: Boolean)Unit">require</span><span class="delimiter">(</span><a href="#58837" title="=&gt; Int">length</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+  <span class="comment">/** Tokens are sorted by their start position, so that they may be searched by offset in
+  * the extraction code and then processed in sequence in the annotation code. */</span>
+  <span class="keyword">def</span> <a title="(other: sxr.Token)Int" id="12905">compare</a><span class="delimiter">(</span><a title="sxr.Token" id="13155">other</a>: <a href="#58948" title="sxr.Token">Token</a><span class="delimiter">)</span> = <a href="#58836" title="implicit scala.LowPriorityImplicits.intWrapper : (x: Int)scala.runtime.RichInt">start</a> <span title="(y: Int)Int">compare</span> <a href="#13155" title="sxr.Token">other</a>.<a href="#58836" title="=&gt; Int">start</a>
+  
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Option[sxr.TypeAttribute]" id="12906">rawType</a>: <span title="Option[sxr.TypeAttribute]">Option</span><span class="delimiter">[</span>TypeAttribute<span class="delimiter">]</span> = <span title="object None">None</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Option[sxr.Link]" id="12907">rawReference</a>: <span title="Option[sxr.Link]">Option</span><span class="delimiter">[</span>Link<span class="delimiter">]</span> = <span title="object None">None</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="List[Int]" id="12908">rawDefinitions</a>: <span title="List[Int]">List</span><span class="delimiter">[</span>Int<span class="delimiter">]</span> = <span title="object Nil">Nil</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Option[String]" id="12909">rawSource</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="object None">None</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="List[String]" id="12910">rawStableIDs</a>: <span title="List[String]">List</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="object Nil">Nil</span>
+  <span class="comment">/** Sets the type information for this token. */</span>
+  <span class="keyword">def</span> <a title="(t: sxr.TypeAttribute)Unit" id="12911">tpe_=</a><span class="delimiter">(</span><a title="sxr.TypeAttribute" id="20641">t</a>: <a href="#58829" title="sxr.TypeAttribute">TypeAttribute</a><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#12906" title="Option[sxr.TypeAttribute]">rawType</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span>
+      <a href="#12906" title="Option[sxr.TypeAttribute]">rawType</a> = <span title="(x: sxr.TypeAttribute)Some[sxr.TypeAttribute]">Some</span><span class="delimiter">(</span><a href="#20641" title="sxr.TypeAttribute">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Sets the defining location for the symbol for this token. */</span>
+  <span class="keyword">def</span> <a title="(l: sxr.Link)Unit" id="12912">reference_=</a><span class="delimiter">(</span><a title="sxr.Link" id="20645">l</a>: <a href="#9488" title="sxr.Link">Link</a><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#12907" title="Option[sxr.Link]">rawReference</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span>
+      <a href="#12907" title="Option[sxr.Link]">rawReference</a> = <span title="(x: sxr.Link)Some[sxr.Link]">Some</span><span class="delimiter">(</span><a href="#20645" title="sxr.Link">l</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Sets the relative source path for this token. */</span>
+  <span class="keyword">def</span> <a title="(s: String)Unit" id="12913">source_=</a><span class="delimiter">(</span><a title="String" id="20649">s</a>: <span title="String">String</span><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#12909" title="Option[String]">rawSource</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span>
+      <a href="#12909" title="Option[String]">rawSource</a> = <span title="(x: String)Some[String]">Some</span><span class="delimiter">(</span><a href="#20649" title="String">s</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Adds an ID for this token.  An ID is used to mark this token as the source of a symbol. */</span>
+  <span class="keyword">def</span> <a title="(id: Int)Unit" id="12914">+=</a><span class="delimiter">(</span><a title="Int" id="20653">id</a>: <span title="Int">Int</span><span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#12908" title="List[Int]">rawDefinitions</a> <span title="(x: Int)List[Int]">::=</span> <a href="#20653" title="Int">id</a> <span class="delimiter">}</span>
+  <span class="comment">/** Adds a stable ID for this token. A stable ID is used to resolve links across runs. */</span>
+  <span class="keyword">def</span> <a title="(stableID: String)Unit" id="12915">+=</a><span class="delimiter">(</span><a title="String" id="20657">stableID</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#12910" title="List[String]">rawStableIDs</a> <span title="(x: String)List[String]">::=</span> <a href="#20657" title="String">stableID</a> <span class="delimiter">}</span>
+  <span class="comment">/** Removes the IDs in the given set from this token's definitions and references.*/</span>
+  <span class="keyword">def</span> <a title="(ids: Set[Int])Unit" id="12916">--=</a><span class="delimiter">(</span><a title="Set[Int]" id="20661">ids</a>: <span title="Set[Int]">Set</span><span class="delimiter">[</span>Int<span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <a href="#12908" title="List[Int]">rawDefinitions</a> = <a href="#12908" title="List[Int]">rawDefinitions</a>.<span title="(p: Int =&gt; Boolean)List[Int]">filter</span><span class="delimiter">(</span><a title="Int" id="58313">d</a> =&gt; <span title="=&gt; Boolean">!</span><a href="#20661" title="Set[Int]">ids</a>.<span title="(elem: Int)Boolean">contains</span><span class="delimiter">(</span><a href="#58313" title="Int">d</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <a href="#12907" title="Option[sxr.Link]">rawReference</a> = <a href="#12907" title="Option[sxr.Link]">rawReference</a>.<span title="(p: sxr.Link =&gt; Boolean)Option[sxr.Link]">filter</span><span class="delimiter">(</span><a title="sxr.Link" id="58534">r</a> =&gt; <span title="=&gt; Boolean">!</span><a href="#20661" title="Set[Int]">ids</a>.<span title="(elem: Int)Boolean">contains</span><span class="delimiter">(</span><a href="#58534" title="sxr.Link">r</a>.<a href="#48236" title="=&gt; Int">target</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Gets the type information. */</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[sxr.TypeAttribute]" id="12917">tpe</a> = <a href="#12906" title="Option[sxr.TypeAttribute]">rawType</a>
+  <span class="comment">/** Gets the link to the defining location for this token. */</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[sxr.Link]" id="12918">reference</a> = <a href="#12907" title="Option[sxr.Link]">rawReference</a>
+  <span class="comment">/** Gets the definition IDs. */</span>
+  <span class="keyword">def</span> <a title="=&gt; List[Int]" id="12919">definitions</a> = <a href="#12908" title="List[Int]">rawDefinitions</a>
+  <span class="comment">/** Gets the stable definition IDs. */</span>
+  <span class="keyword">def</span> <a title="=&gt; List[String]" id="12920">stableIDs</a> = <a href="#12910" title="List[String]">rawStableIDs</a>
+  <span class="comment">/** Gets the relative path of the source containing this token. */</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="12921">source</a> = <a href="#12909" title="Option[String]">rawSource</a>
+  <span class="comment">/** True if this token has no reference to a definition and has no definitions itself. */</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="12922">isSimple</a> = <a href="#12918" title="=&gt; Option[sxr.Link]">reference</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#12919" title="=&gt; List[Int]">definitions</a>.<span title="=&gt; Boolean">isEmpty</span>
+  <span class="comment">/** True if this token has no reference to a definition, has no definitions itself, and
+  * has no type information. */</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="12923">isPlain</a> = <a href="#12922" title="=&gt; Boolean">isSimple</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#12917" title="=&gt; Option[sxr.TypeAttribute]">tpe</a>.<span title="=&gt; Boolean">isEmpty</span>
+  <span class="keyword">def</span> <a title="(to: Int)Unit" id="12924">collapseDefinitions</a><span class="delimiter">(</span><a title="Int" id="21085">to</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <span class="delimiter">{</span> <a href="#12908" title="List[Int]">rawDefinitions</a> = <a href="#21085" title="Int">to</a> <a href="#21088" title="(x: Int)List[Int]">::</a> <span title="object Nil">Nil</span> <span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="(remap: Int =&gt; Int)Unit" id="12925">remapReference</a><span class="delimiter">(</span><a title="Int =&gt; Int" id="21127">remap</a>: Int =&gt; Int<span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <a href="#12907" title="Option[sxr.Link]">rawReference</a> <span title="Unit" class="keyword">match</span>
+    <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="Unit">Some</span><span class="delimiter">(</span><a title="sxr.Link" id="58559">refLink</a><span class="delimiter">)</span> =&gt;
+        <span class="keyword">val</span> <a title="Int" id="58560">newID</a> = <a href="#21127" title="(v1: Int)Int">remap</a><span class="delimiter">(</span><a href="#58559" title="sxr.Link">refLink</a>.<a href="#48236" title="=&gt; Int">target</a><span class="delimiter">)</span>
+        <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#58560" title="Int">newID</a> <span title="(x: Int)Boolean">!=</span> <a href="#58559" title="sxr.Link">refLink</a>.<a href="#48236" title="=&gt; Int">target</a><span class="delimiter">)</span>
+          <a href="#12907" title="Option[sxr.Link]">rawReference</a> = <span title="(x: sxr.Link)Some[sxr.Link]">Some</span><span class="delimiter">(</span><a href="#58559" title="sxr.Link">refLink</a>.<a href="#47945" title="(newTarget: Int)sxr.Link">retarget</a><span class="delimiter">(</span><a href="#58560" title="Int">newID</a><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="Unit">None</span> =&gt; <span title="Unit" class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+<span class="comment">/** Holds type information.  This class will probably change to accomodate tokeninzing types. */</span>
+<span class="keyword">private</span> case <span class="keyword">class</span> <a title="class TypeAttribute extends java.lang.Object with NotNull with ScalaObject with Product with Serializable" id="58829">TypeAttribute</a><a href="#58829" title="ScalaObject" class="delimiter">(</a><a title="String" id="47925">name</a>: <span title="String">String</span>, <a title="Option[sxr.Link]" id="47926">definition</a>: <span title="Option[sxr.Link]">Option</span><span class="delimiter">[</span>Link<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="NotNull">NotNull</span>
+
+        </pre>
+    </body>
+</html>

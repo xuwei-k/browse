@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <meta http-equiv="Expires" content="0" />
+        <title>Annotate.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/* sxr -- Scala X-Ray
+ * Copyright 2009 Mark Harrah
+ */</span>
+
+<span class="keyword">package</span> sxr
+
+<span class="keyword">import</span> java.io.<span class="delimiter">{</span>File, Reader, Writer<span class="delimiter">}</span>
+
+<span class="comment">/** The entry point for annotating an input file.*/</span>
+<span class="keyword">private</span> <span class="keyword">object</span> <a title="object sxr.Annotate" id="9579">Annotate</a>
+<span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="FileUtil.scala.html#9666" title="object sxr.FileUtil">FileUtil</a>.<span class="delimiter">{</span>withReader, withWriter<span class="delimiter">}</span>
+  <span class="comment">/** Annotates an input source file with highlighting and type information provided by 'tokens' and applied by 'styler'.
+  * The result is written to 'target'.*/</span>
+  <span class="keyword">def</span> <a title="(source: java.io.File, sourceEncoding: String, target: java.io.File, tokens: List[sxr.Token], styler: sxr.Styler)Unit" id="10063">apply</a><span class="delimiter">(</span><a title="java.io.File" id="11695">source</a>: <span title="java.io.File">File</span>, <a title="String" id="11696">sourceEncoding</a>: <span title="String">String</span>, <a title="java.io.File" id="11697">target</a>: <span title="java.io.File">File</span>, <a title="List[sxr.Token]" id="11698">tokens</a>: <span title="List[sxr.Token]">List</span><span class="delimiter">[</span>Token<span class="delimiter">]</span>, <a title="sxr.Styler" id="11699">styler</a>: <a href="Styler.scala.html#9674" title="sxr.Styler">Styler</a><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <a href="FileUtil.scala.html#12371" title="(source: java.io.File, sourceEncoding: String)(f: java.io.BufferedReader =&gt; Unit)Unit">withReader</a><span class="delimiter">(</span><a href="#11695" title="java.io.File">source</a>, <a href="#11696" title="String">sourceEncoding</a><span class="delimiter">)</span> <span class="delimiter">{</span> <a title="java.io.BufferedReader" id="21199">input</a> =&gt;
+      <a href="FileUtil.scala.html#12374" title="(target: java.io.File)(f: java.io.BufferedWriter =&gt; Unit)Unit">withWriter</a><span class="delimiter">(</span><a href="#11697" title="java.io.File">target</a><span class="delimiter">)</span> <span class="delimiter">{</span> <a title="java.io.BufferedWriter" id="21229">output</a> =&gt;
+        <span title="sxr.Annotate" class="keyword">new</span> <a href="#9578" title="sxr.Annotate">Annotate</a><span class="delimiter">(</span><a href="#21199" title="java.io.BufferedReader">input</a>, <a href="#21229" title="java.io.BufferedWriter">output</a>, <a href="#11698" title="List[sxr.Token]">tokens</a>, <a href="#11699" title="sxr.Styler">styler</a><span class="delimiter">)</span>.<a href="#10136" title="()Unit">annotate</a><span class="delimiter">(</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+<span class="comment">/** Annotates a source file.
+* This class is one-time use (because of the input/output Reader/Writer) and should only be used through the Annotate module.
+*
+*  'input' is the raw source file.
+* The annotated file will be written to 'output'
+* The information associated with a file is defined by 'tokens'
+* 'styler' generates the final annotations for a token 
+*
+* Note that the 'write' method in this class is specific to HTML and would
+* need to be generalized for another format */</span>
+<span class="keyword">private</span> <span class="keyword">class</span> <a title="class Annotate extends java.lang.Object with NotNull with ScalaObject" id="9578">Annotate</a><a href="#9578" title="ScalaObject" class="delimiter">(</a><a title="java.io.Reader" id="10140">input</a>: <span title="java.io.Reader">Reader</span>, <a title="java.io.Writer" id="10141">output</a>: <span title="java.io.Writer">Writer</span>, <a title="List[sxr.Token]" id="10142">tokens</a>: <span title="List[sxr.Token]">List</span><span class="delimiter">[</span>Token<span class="delimiter">]</span>, <a title="sxr.Styler" id="10143">styler</a>: <a href="Styler.scala.html#9674" title="sxr.Styler">Styler</a><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="NotNull">NotNull</span>
+<span class="delimiter">{</span>
+  <span class="comment">/** Applies the annotations.*/</span>
+  <span class="keyword">def</span> <a title="()Unit" id="10136">annotate</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><a href="#10143" title="sxr.Styler">styler</a>.<a href="Styler.scala.html#12405" title="=&gt; String">head</a><span class="delimiter">)</span>
+    <a href="#10137" title="(index: Int, tokens: List[sxr.Token])Unit">annotate</a><span class="delimiter">(</span><span title="Int(0)" class="int">0</span>, <a href="#10142" title="List[sxr.Token]">tokens</a><span class="delimiter">)</span>
+    <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><a href="#10143" title="sxr.Styler">styler</a>.<a href="Styler.scala.html#12407" title="=&gt; String">tail</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Applies annotations.  index is the current position in the source file. */</span>
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(index: Int, tokens: List[sxr.Token])Unit" id="10137">annotate</a><span class="delimiter">(</span><a title="Int" id="21244">index</a>: <span title="Int">Int</span>, <a title="List[sxr.Token]" id="21245">tokens</a>: <span title="List[sxr.Token]">List</span><span class="delimiter">[</span>Token<span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <a href="#21245" title="List[sxr.Token]">tokens</a> <span title="Unit" class="keyword">match</span>
+    <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="Unit">Nil</span> <span class="comment">=&gt;// no more tokens, copy the remaining characters over</span>
+        <a href="#10138" title="(chars: Int)Unit">transfer</a><span class="delimiter">(</span>java.lang.Integer.<span title="Int(2147483647)">MAX_VALUE</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <a title="Unit" id="21486">token</a> :: <a title="List[sxr.Token]" id="21487">tail</a> =&gt; <span class="comment">//look at the next token</span>
+        <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#21486" title="sxr.Token">token</a>.<a href="Token.scala.html#12898" title="=&gt; Int">start</a> <span title="(x: Int)Boolean">&lt;</span> <a href="#21244" title="Int">index</a><span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+          <span title="(x: Any)Unit">println</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Overlapping span detected at index &quot;)" class="string">&quot;Overlapping span detected at index &quot;</span> <span title="(x$1: Any)java.lang.String">+</span> <a href="#21244" title="Int">index</a> <span title="(x$1: Any)java.lang.String">+</span> <span title="java.lang.String(&quot;: &quot;)" class="string">&quot;: &quot;</span> <span title="(x$1: Any)java.lang.String">+</span> <a href="#21486" title="sxr.Token">token</a><span class="delimiter">)</span>
+          <a href="#10137" title="(index: Int, tokens: List[sxr.Token])Unit">annotate</a><span class="delimiter">(</span><a href="#21244" title="Int">index</a>, <a href="#21487" title="List[sxr.Token]">tail</a><span class="delimiter">)</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">else</span>
+        <span class="delimiter">{</span>
+          <span class="comment">// copy over characters not to be annotated</span>
+          <a href="#10138" title="(chars: Int)Unit">transfer</a><span class="delimiter">(</span><a href="#21486" title="sxr.Token">token</a>.<a href="Token.scala.html#12898" title="=&gt; Int">start</a> <span title="(x: Int)Int">-</span> <a href="#21244" title="Int">index</a><span class="delimiter">)</span>
+          <span class="comment">// get the annotations for the token from the styler</span>
+          <span class="keyword">val</span> <a title="List[sxr.Annotation]" id="21498">styledList</a> = <a href="Styler.scala.html#12406" title="(token: sxr.Token)List[sxr.Annotation]">styler</a><span class="delimiter">(</span><a href="#21486" title="sxr.Token">token</a><span class="delimiter">)</span>
+          <span class="comment">// write all opening tags</span>
+          <span class="keyword">for</span><span class="delimiter">(</span><a title="sxr.Annotation" id="21534">styled</a> &lt;- <a href="#21498" title="(f: sxr.Annotation =&gt; Unit)Unit">styledList</a><span class="delimiter">)</span>
+            <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><a href="#21534" title="sxr.Annotation">styled</a>.<a href="Styler.scala.html#21537" title="=&gt; String">open</a><span class="delimiter">)</span>
+          <span class="comment">// copy the annotated content</span>
+          <a href="#10138" title="(chars: Int)Unit">transfer</a><span class="delimiter">(</span><a href="#21486" title="sxr.Token">token</a>.<a href="Token.scala.html#12900" title="=&gt; Int">length</a><span class="delimiter">)</span>
+          <span class="comment">// close the tags</span>
+          <span class="keyword">for</span><span class="delimiter">(</span><a title="sxr.Annotation" id="21588">styled</a> &lt;- <a href="#21498" title="List[sxr.Annotation]">styledList</a>.<span title="(f: sxr.Annotation =&gt; Unit)Unit">reverse</span><span class="delimiter">)</span>
+            <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><a href="#21588" title="sxr.Annotation">styled</a>.<a href="Styler.scala.html#21539" title="=&gt; String">close</a><span class="delimiter">)</span>
+          <span class="comment">// continue</span>
+          <a href="#10137" title="(index: Int, tokens: List[sxr.Token])Unit">annotate</a><span class="delimiter">(</span><a href="#21486" title="sxr.Token">token</a>.<a href="Token.scala.html#12898" title="=&gt; Int">start</a> <span title="(x: Int)Int">+</span> <a href="#21486" title="sxr.Token">token</a>.<a href="Token.scala.html#12900" title="=&gt; Int">length</a>, <a href="#21487" title="List[sxr.Token]">tail</a><span class="delimiter">)</span>
+        <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  
+  <span class="comment">/** Transfers the given number of characters from the input to the output unless the input does not have enough
+  * characters, in which case all remaining characters are transferred.*/</span>
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(chars: Int)Unit" id="10138">transfer</a><span class="delimiter">(</span><a title="Int" id="21398">chars</a>: <span title="Int">Int</span><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#21398" title="Int">chars</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="Int" id="21606">c</a> = <a href="#10140" title="java.io.Reader">input</a>.<span title="()Int">read</span><span class="delimiter">(</span><span class="delimiter">)</span>
+      <span title="Unit" class="keyword">if</span><span class="delimiter">(</span><a href="#21606" title="Int">c</a> <span title="(x: Int)Boolean">&gt;=</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+      <span class="delimiter">{</span>
+        <a href="#10139" title="(c: Char)Unit">write</a><span class="delimiter">(</span><a href="#21606" title="Int">c</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="Char" class="delimiter">[</span><span title="Char">Char</span><span class="delimiter">]</span><span class="delimiter">)</span>
+        <a href="#10138" title="(chars: Int)Unit">transfer</a><span class="delimiter">(</span><a href="#21398" title="Int">chars</a> <span title="(x: Int)Int">-</span> <span title="Int(1)" class="int">1</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Writes the given character to the output, escaping to HTML it if necessary.*/</span>
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(c: Char)Unit" id="10139">write</a><span class="delimiter">(</span><a title="Char" id="21916">c</a>: <span title="Char">Char</span><span class="delimiter">)</span>
+  <span class="delimiter">{</span>
+    <a href="#21916" title="Char">c</a> <span title="Unit" class="keyword">match</span>
+    <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="Unit" class="char">'&gt;'</span> =&gt; <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;gt;&quot;)" class="string">&quot;&amp;gt;&quot;</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="Unit" class="char">'&amp;'</span> =&gt; <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;amp;&quot;)" class="string">&quot;&amp;amp;&quot;</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="Unit" class="char">'&lt;'</span> =&gt; <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;lt;&quot;)" class="string">&quot;&amp;lt;&quot;</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="Unit" class="char">'&quot;'</span> =&gt; <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: java.lang.String)Unit">write</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;quot;&quot;)" class="string">&quot;&amp;quot;&quot;</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="Unit">_</span> =&gt; <a href="#10141" title="java.io.Writer">output</a>.<span title="(x$1: Int)Unit">write</span><span class="delimiter">(</span><a href="#21916" title="=&gt; Int">c</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

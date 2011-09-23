@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <meta http-equiv="Expires" content="0" />
+        <title>OutputWriter.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/* sxr -- Scala X-Ray
+ * Copyright 2009, 2010 Mark Harrah, Olivier Michallat
+ */</span>
+
+<span class="keyword">package</span> sxr
+
+<span class="keyword">import</span> java.io.File
+<span class="keyword">import</span> java.net.URL
+
+<span class="comment">/** The contract required to handle a specific format */</span>
+<span class="keyword">trait</span> <a title="trait OutputWriter extends java.lang.Object" id="9716">OutputWriter</a> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="comment">/** Generates initial content. */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="41406">writeStart</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span title="Unit">Unit</span>
+
+  <span class="comment">/** Generates content for a given source file. */</span>
+  <span class="keyword">def</span> <a title="(sourceFile: java.io.File, relativeSourcePath: String, tokenList: List[sxr.Token])Unit" id="41407">writeUnit</a><span class="delimiter">(</span><a title="java.io.File" id="46359">sourceFile</a>: <span title="java.io.File">File</span>, <a title="String" id="46360">relativeSourcePath</a>: <span title="String">String</span>, <a title="List[sxr.Token]" id="46361">tokenList</a>: <span title="List[sxr.Token]">List</span><span class="delimiter">[</span>Token<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Unit">Unit</span>
+
+  <span class="comment">/** Generates final content. */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="41408">writeEnd</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span title="Unit">Unit</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/** The initial data passed at writer construction */</span>
+<span class="keyword">class</span> <a title="class OutputWriterContext extends java.lang.Object with ScalaObject" id="9536">OutputWriterContext</a><a href="#9536" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="List[java.io.File]" id="40296">sourceFiles</a>: <span title="List[java.io.File]">List</span><span class="delimiter">[</span>File<span class="delimiter">]</span>,
+  <span class="keyword">val</span> <a title="java.io.File" id="40297">outputDirectory</a>: <span title="java.io.File">File</span>,
+  <span class="keyword">val</span> <a title="String" id="40298">encoding</a>: <span title="String">String</span>,
+  <span class="keyword">val</span> <a title="List[java.net.URL]" id="40299">externalLinkURLs</a>: <span title="List[java.net.URL]">List</span><span class="delimiter">[</span>URL<span class="delimiter">]</span><span class="delimiter">)</span>
+
+<span class="keyword">class</span> <a title="class OutputInfo extends java.lang.Object with ScalaObject" id="9722">OutputInfo</a><a href="#9722" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="java.io.File" id="55968">outputDirectory</a>: <span title="java.io.File">File</span>, <span class="keyword">val</span> <a title="String" id="55969">outputFileExtension</a>: <span title="String">String</span><span class="delimiter">)</span>
+<span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(relativeSourcePath: String)java.io.File" id="55967">getOutputFile</a><span class="delimiter">(</span><a title="String" id="56035">relativeSourcePath</a>: <span title="String">String</span><span class="delimiter">)</span> =
+    <span title="(x$1: java.io.File, x$2: java.lang.String)java.io.File" class="keyword">new</span> <span title="java.io.File">File</span><span class="delimiter">(</span><a href="#55968" title="=&gt; java.io.File">outputDirectory</a>, <a href="#56035" title="String">relativeSourcePath</a> <span title="(x$1: Any)java.lang.String">+</span> <a href="#55969" title="=&gt; String">outputFileExtension</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>
