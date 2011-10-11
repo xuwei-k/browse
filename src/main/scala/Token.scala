@@ -22,8 +22,8 @@ private class Link(val path: String, val target: Int, val stableID: Option[Strin
 * 'code' is the class of the token (see Tokens in the compiler)*/
 private case class Token(start: Int, length: Int, code: Int) extends NotNull with Ordered[Token] with Comparable[Token]
 {
-  require(start >= 0)
-  require(length > 0)
+  require(start >= 0,Thread.currentThread.getStackTrace.mkString("\n"))
+  require(length > 0,Thread.currentThread.getStackTrace.mkString("\n"))
   /** Tokens are sorted by their start position, so that they may be searched by offset in
   * the extraction code and then processed in sequence in the annotation code. */
   def compare(other: Token) = start compare other.start

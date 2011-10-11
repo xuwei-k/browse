@@ -327,9 +327,9 @@ abstract class Browse extends Plugin
   /** Constructs a decoded fully qualified name for the given symbol. */
   private def fullName(s: Symbol): String =
   {
-    require(s != NoSymbol)
+    require(s != NoSymbol,"symbol should not NoSymbol\n" + Thread.currentThread.getStackTrace.mkString("\n") )
     val owner = s.owner
-    require(owner != NoSymbol)
+    require(owner != NoSymbol,"symbol owner should not NoSymbol\n" + Thread.currentThread.getStackTrace.mkString("\n"))
     if(owner.isRoot || owner.isEmptyPackageClass)
       s.nameString
     else

@@ -59,7 +59,7 @@ object FileUtil
     val commonLength = commonPrefix(fromPath, toPath)
     val relativeTo = toPath.drop(commonLength)
     val parentsToCommon = (fromPath.length - commonLength - 1)
-    require(parentsToCommon >= 0)
+    require(parentsToCommon >= 0,Thread.currentThread.getStackTrace.mkString("\n"))
     val up = "../" * parentsToCommon
     relativeTo.mkString(up, "/", "")
   }
