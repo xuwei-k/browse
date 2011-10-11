@@ -59,9 +59,15 @@ object FileUtil
     val commonLength = commonPrefix(fromPath, toPath)
     val relativeTo = toPath.drop(commonLength)
     val parentsToCommon = (fromPath.length - commonLength - 1)
-    require(parentsToCommon >= 0,Thread.currentThread.getStackTrace.mkString("\n"))
-    val up = "../" * parentsToCommon
-    relativeTo.mkString(up, "/", "")
+    if(parentsToCommon < 0 ){
+      Console.err.println( 
+        Seq(fromFile,toFile,parentsToCommon).mkString("\n") + Thread.currentThread.getStackTrace.mkString("\n")
+      )
+      ""
+    }else{
+      val up = "../" * parentsToCommon
+      relativeTo.mkString(up, "/", "")
+    }
   }
   
   /** Copies the 'resource' to be found on the classpath to the file 'to'.*/
