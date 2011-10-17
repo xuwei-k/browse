@@ -86,7 +86,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
   import java.io.Writer
   private def writeEntry(index: File, out: Writer)(path: String)
   {
-    out.write("<li><a href=\"")
+    out.write("""<li><a target="_blank" href="""")
     out.write(path)
     out.write("\">")
     val label =
