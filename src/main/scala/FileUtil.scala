@@ -116,7 +116,7 @@ object FileUtil
   // used by relativize
   private def baseFileString(baseFile: File): Option[String] =
   {
-    if(baseFile.isDirectory)
+    if(true) // baseFile.isDirectory)
     {
       val cp = baseFile.getCanonicalPath
       assert(cp.length > 0)

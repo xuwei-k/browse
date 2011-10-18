@@ -48,10 +48,36 @@ abstract class Browse extends Plugin
   private val linkIndexFile = new File(outputDirectory, LinkIndexRelativePath)
   private def linkStore = new LinkMapStore(linkIndexFile)
 
+  def writeSubDirectoryIndex(f:List[File]) = {
+    def path(file:File) = {
+      val s = file.getCanonicalPath.split(File.separatorChar).dropWhile("scala" != )
+
+      outputDirectory.toString + File.separator + {
+        if(s.size > 1)
+          s.tail.mkString(File.separator)
+        else
+          "" 
+      }
+    }
+
+    try{
+      f.groupBy{b => path(b.getParentFile)}.foreach{
+        case (dir,files) =>
+        val d = new File( dir , HtmlWriter.IndexRelativePath )
+        new File(dir).mkdirs
+        val list = files.map{a => new File(path(a) + HtmlWriter.HtmlExtension)}.toList
+        HtmlWriter.writeIndex(d,list)
+        // println(d,list.mkString("\n")) // debug
+      }
+    }catch{case e => e.printStackTrace}
+  }
+
   /** The entry method for invoking the configured writers to generate the output.*/
   def generateOutput(externalLinks: List[LinkMap])
   {
     val sourceFiles = currentRun.units.toList.flatMap(getSourceFile(_))
+    writeSubDirectoryIndex(sourceFiles)
+
     if (sourceFiles.size > 0) {
       val links = new CompoundLinkMap(linkStore.read(None), externalLinks)
       links.clear(sourceFiles.map(getRelativeSourcePath(_)).toList)

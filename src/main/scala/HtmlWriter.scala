@@ -32,6 +32,34 @@ object HtmlWriter
   def writeJS(to: File) { FileUtil.writeResource(LinkedJS, to) }
   /** Copies the jQuery script available as a resource on the classpath to the file 'to'.*/
   def writeJQuery(to: File) { FileUtil.writeResource(LinkedJQuery, to) }
+
+  def writeIndex(to: File, files: Iterable[File])
+  {
+    val relativizeAgainst = to.getParentFile
+    val rawRelativePaths = files.flatMap(file => FileUtil.relativize(relativizeAgainst, file).toList)
+    println(to,rawRelativePaths,files,rawRelativePaths.size,files.size)
+    val sortedRelativePaths = wrap.Wrappers.treeSet[String]
+    sortedRelativePaths ++= rawRelativePaths
+    FileUtil.withWriter(to) { out =>
+      out.write("""<html><head><meta http-equiv="Expires" content="0" /></head><body>""")
+      sortedRelativePaths.foreach(writeEntry(to, out))
+      out.write("</body></html>")
+    }
+  }
+  import java.io.Writer
+  private def writeEntry(index: File, out: Writer)(path: String)
+  {
+    out.write("""<li><a target="_blank" href="""")
+    out.write(path)
+    out.write("\">")
+    val label =
+      if(path.endsWith(".html"))
+        path.substring(0, path.length - ".html".length)
+      else
+        path
+    out.write(label)
+    out.write("</a></li>")
+  }
 }
 
 /** Outputs a set of html files and auxiliary javascript and CSS files that annotate the source
@@ -71,30 +99,4 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
     writeIndex(indexFile, outputFiles)
   }
   
-  def writeIndex(to: File, files: Iterable[File])
-  {
-    val relativizeAgainst = to.getParentFile
-    val rawRelativePaths = files.flatMap(file => FileUtil.relativize(relativizeAgainst, file).toList)
-    val sortedRelativePaths = wrap.Wrappers.treeSet[String]
-    sortedRelativePaths ++= rawRelativePaths
-    FileUtil.withWriter(to) { out =>
-      out.write("""<html><head><meta http-equiv="Expires" content="0" /></head><body>""")
-      sortedRelativePaths.foreach(writeEntry(to, out))
-      out.write("</body></html>")
-    }
-  }
-  import java.io.Writer
-  private def writeEntry(index: File, out: Writer)(path: String)
-  {
-    out.write("""<li><a target="_blank" href="""")
-    out.write(path)
-    out.write("\">")
-    val label =
-      if(path.endsWith(".html"))
-        path.substring(0, path.length - ".html".length)
-      else
-        path
-    out.write(label)
-    out.write("</a></li>")
-  }
 }
