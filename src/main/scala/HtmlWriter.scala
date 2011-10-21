@@ -37,7 +37,7 @@ object HtmlWriter
   {
     val relativizeAgainst = to.getParentFile
     val rawRelativePaths = files.flatMap(file => FileUtil.relativize(relativizeAgainst, file).toList)
-    println(to,rawRelativePaths,files,rawRelativePaths.size,files.size)
+    //println(to,rawRelativePaths,files,rawRelativePaths.size,files.size)
     val sortedRelativePaths = wrap.Wrappers.treeSet[String]
     sortedRelativePaths ++= rawRelativePaths
     FileUtil.withWriter(to) { out =>
