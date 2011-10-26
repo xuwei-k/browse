@@ -33,32 +33,39 @@ object HtmlWriter
   /** Copies the jQuery script available as a resource on the classpath to the file 'to'.*/
   def writeJQuery(to: File) { FileUtil.writeResource(LinkedJQuery, to) }
 
-  def writeIndex(to: File, files: Iterable[File])
+  case class PathAndLineCount(path:String,lineCount:Option[Int])
+
+  def writeIndex(to: File, files: List[FileWithLineCount])
   {
+    try{
     val relativizeAgainst = to.getParentFile
-    val rawRelativePaths = files.flatMap(file => FileUtil.relativize(relativizeAgainst, file).toList)
-    //println(to,rawRelativePaths,files,rawRelativePaths.size,files.size)
-    val sortedRelativePaths = wrap.Wrappers.treeSet[String]
-    sortedRelativePaths ++= rawRelativePaths
+    val pathAndCounts = for{
+      f     <- files
+      path  <- FileUtil.relativize(relativizeAgainst, f.file).toList
+    }yield PathAndLineCount(path,f.lineCount)
+
     FileUtil.withWriter(to) { out =>
-      out.write("""<html><head><meta http-equiv="Expires" content="0" /></head><body>""")
-      sortedRelativePaths.foreach(writeEntry(to, out))
-      out.write("</body></html>")
+      out.write("""<html><head><meta http-equiv="Expires" content="0" /></head><body><ol>""")
+      pathAndCounts.sortBy(_.path).foreach(writeEntry(out))
+      out.write("</ol></body></html>")
     }
+    }catch{case e => e.printStackTrace}
   }
   import java.io.Writer
-  private def writeEntry(index: File, out: Writer)(path: String)
+  private def writeEntry(out: Writer)(file: PathAndLineCount)
   {
-    out.write("""<li><a target="_blank" href="""")
-    out.write(path)
-    out.write("\">")
-    val label =
-      if(path.endsWith(".html"))
-        path.substring(0, path.length - ".html".length)
+    Iterator(
+      """<li><a target="_blank" href=""""
+     ,file.path
+     ,"\">"
+     ,{if(file.path.endsWith(".html"))
+        file.path.substring(0, file.path.length - ".html".length)
       else
-        path
-    out.write(label)
-    out.write("</a></li>")
+        file.path}
+     ,"</a>"
+     ,file.lineCount.toString
+     ,"</li>"
+    ).foreach(out.write)
   }
 }
 
@@ -96,7 +103,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
 
   def writeEnd() {
     val indexFile = new File(outputDirectory, IndexRelativePath)
-    writeIndex(indexFile, outputFiles)
+    writeIndex(indexFile, outputFiles.map{f => FileWithLineCount(f)})
   }
   
 }

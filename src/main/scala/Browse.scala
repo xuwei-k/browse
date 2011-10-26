@@ -16,6 +16,7 @@ import forScope._
 
 import OutputFormat.{OutputFormat, getWriter}
 import Browse._
+import scala.io.Source
 
 object Browse
 {
@@ -26,6 +27,8 @@ object Browse
   /** The name of the directory containing cached remote `link.index`es*/
   val CacheRelativePath = "cache.sxr"
 }
+
+case class FileWithLineCount(file:File,lineCount:Option[Int] = None)
 
 /** The actual work extracting symbols and types is done here. */
 abstract class Browse extends Plugin
@@ -49,24 +52,31 @@ abstract class Browse extends Plugin
   private def linkStore = new LinkMapStore(linkIndexFile)
 
   def writeSubDirectoryIndex(f:List[File]) = {
-    def path(file:File) = {
-      val s = file.getCanonicalPath.split(File.separatorChar).dropWhile("scala" != )
-
-      outputDirectory.toString + File.separator + {
-        if(s.size > 1)
-          s.tail.mkString(File.separator)
-        else
-          "" 
-      }
-    }
-
     try{
-      f.groupBy{b => path(b.getParentFile)}.foreach{
+
+      def path(file:File) = {
+        val s = file.getCanonicalPath.split(File.separatorChar).dropWhile("scala" != )
+ 
+        outputDirectory.toString + File.separator + {
+          if(s.size > 1)
+            s.tail.mkString(File.separator)
+          else
+            "" 
+        }
+      }
+ 
+      val e = f.map{a =>
+        val c = if(a.isFile) Some(Source.fromFile(a,"UTF-8").getLines.size) else None
+        FileWithLineCount(a,c)
+      }
+
+      e.groupBy{b => path(b.file.getParentFile)}.map{
         case (dir,files) =>
-        val d = new File( dir , HtmlWriter.IndexRelativePath )
-        new File(dir).mkdirs
-        val list = files.map{a => new File(path(a) + HtmlWriter.HtmlExtension)}.toList
-        HtmlWriter.writeIndex(d,list)
+//        val directories = files.head.getParentFile.listFiles.collect{case d if d.isDirectory => new File(path(d))}//TODO 
+          val d = new File( dir , HtmlWriter.IndexRelativePath )
+          new File(dir).mkdirs
+          val list = files.map{a => a.copy(file = new File(path(a.file) + HtmlWriter.HtmlExtension))}.toList
+          HtmlWriter.writeIndex(d,list) //::: directories.toList ) //TODO
         // println(d,list.mkString("\n")) // debug
       }
     }catch{case e => e.printStackTrace}
