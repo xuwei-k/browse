@@ -5,6 +5,7 @@
 package sxr
 
 import java.io.File
+import scala.collection.mutable.ArrayBuffer
 
 object HtmlWriter
 {
@@ -45,9 +46,9 @@ object HtmlWriter
     }yield PathAndLineCount(path,f.lineCount)
 
     FileUtil.withWriter(to) { out =>
-      out.write("""<html><head><meta http-equiv="Expires" content="0" /></head><body><ol>""")
+      out.write("<html>\n<head><meta http-equiv=\"Expires\" content=\"0\" /></head>\n<body>\n<ol>")
       pathAndCounts.sortBy(_.path).foreach(writeEntry(out))
-      out.write("</ol></body></html>")
+      out.write("</ol>\n</body>\n</html>")
     }
     }catch{case e => e.printStackTrace}
   }
@@ -64,7 +65,7 @@ object HtmlWriter
         file.path}
      ,"</a>"
      ,file.lineCount.getOrElse("").toString
-     ,"</li>"
+     ,"</li>\n"
     ).foreach(out.write)
   }
 }
@@ -84,7 +85,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
   val jsFile = new File(outputDirectory, JSRelativePath)
   val jQueryFile = new File(outputDirectory, JQueryRelativePath)
 
-  private var outputFiles = List[File]()
+  private val outputFiles = ArrayBuffer[FileWithLineCount]()
 
   def writeStart() {
     writeDefaultCSS(cssFile)
@@ -94,7 +95,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
 
   def writeUnit(sourceFile: File, relativeSourcePath: String, tokenList: List[Token]) {
     val outputFile = getOutputFile(relativeSourcePath)
-    outputFiles ::= outputFile
+    outputFiles += FileWithLineCount( outputFile , FileUtil.lineCount(sourceFile) )
     def relPath(f: File) = FileUtil.relativePath(outputFile, f)
 
     val styler = new BasicStyler(relativeSourcePath, relPath(cssFile), relPath(jsFile),  relPath(jQueryFile))
@@ -103,7 +104,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
 
   def writeEnd() {
     val indexFile = new File(outputDirectory, IndexRelativePath)
-    writeIndex(indexFile, outputFiles.map{f => FileWithLineCount(f)})
+    writeIndex(indexFile, outputFiles.toList )
   }
   
 }

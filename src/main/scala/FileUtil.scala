@@ -7,10 +7,21 @@ package sxr
 import java.io.{FileInputStream, FileOutputStream, InputStream, OutputStream}
 import java.io.{BufferedReader, BufferedWriter, File, FileReader, FileWriter, InputStreamReader, OutputStreamWriter}
 import java.net.URL
+import scala.io.Source
 
 /** A collection of utilities for I/O*/
 object FileUtil
 {
+  def lineCount(f:File):Option[Int] = {
+    if(f.isFile){
+      try{
+        Option(Source.fromFile(f,DefaultEncoding).getLines.size)
+      }catch{
+        case e => e.printStackTrace;None
+      }
+    }else None
+  }
+
   /** Managed resource operation.*/
   def withReader[T](source: File, sourceEncoding: String)(f: BufferedReader => T): T =
   {

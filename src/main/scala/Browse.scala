@@ -66,8 +66,7 @@ abstract class Browse extends Plugin
       }
  
       val e = f.map{a =>
-        val c = if(a.isFile) Some(Source.fromFile(a,"UTF-8").getLines.size) else None
-        FileWithLineCount(a,c)
+        FileWithLineCount(a,FileUtil.lineCount(a))
       }
 
       e.groupBy{b => path(b.file.getParentFile)}.map{
