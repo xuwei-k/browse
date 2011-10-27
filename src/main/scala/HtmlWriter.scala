@@ -63,7 +63,7 @@ object HtmlWriter
       else
         file.path}
      ,"</a>"
-     ,file.lineCount.toString
+     ,file.lineCount.getOrElse("").toString
      ,"</li>"
     ).foreach(out.write)
   }
