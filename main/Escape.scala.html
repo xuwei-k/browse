@@ -20,21 +20,21 @@
 <span class="comment">/** Escapes a raw string for use in HTML.*/</span>
 <span class="keyword">object</span> <a title="object sxr.Escape" id="9509">Escape</a>
 <span title="ScalaObject" class="delimiter">{</span>
-  <span class="keyword">def</span> <a title="(s: String)java.lang.String" id="54908">apply</a><span class="delimiter">(</span><a title="String" id="54910">s</a>: <span title="String">String</span><span class="delimiter">)</span> =
+  <span class="keyword">def</span> <a title="(s: String)java.lang.String" id="55396">apply</a><span class="delimiter">(</span><a title="String" id="55398">s</a>: <span title="String">String</span><span class="delimiter">)</span> =
   <span class="delimiter">{</span>
-    <span class="keyword">val</span> <a title="StringBuilder" id="54913">out</a> = <span title="()StringBuilder" class="keyword">new</span> <span title="StringBuilder">StringBuilder</span>
-    <span class="keyword">for</span><span class="delimiter">(</span><a title="Int" id="55971">i</a> &lt;- <span title="implicit scala.LowPriorityImplicits.intWrapper : (x: Int)scala.runtime.RichInt" class="int">0</span> <span title="(f: Int =&gt; StringBuilder)Unit">until</span> <a href="#54910" title="String">s</a>.<span title="()Int">length</span><span class="delimiter">)</span>
+    <span class="keyword">val</span> <a title="StringBuilder" id="55401">out</a> = <span title="()StringBuilder" class="keyword">new</span> <span title="StringBuilder">StringBuilder</span>
+    <span class="keyword">for</span><span class="delimiter">(</span><a title="Int" id="56459">i</a> &lt;- <span title="implicit scala.LowPriorityImplicits.intWrapper : (x: Int)scala.runtime.RichInt" class="int">0</span> <span title="(f: Int =&gt; StringBuilder)Unit">until</span> <a href="#55398" title="String">s</a>.<span title="()Int">length</span><span class="delimiter">)</span>
     <span class="delimiter">{</span>
-      <a href="#54910" title="String">s</a>.<span title="(x$1: Int)Char">charAt</span><span class="delimiter">(</span><a href="#55971" title="Int">i</a><span class="delimiter">)</span> <span title="StringBuilder" class="keyword">match</span>
+      <a href="#55398" title="String">s</a>.<span title="(x$1: Int)Char">charAt</span><span class="delimiter">(</span><a href="#56459" title="Int">i</a><span class="delimiter">)</span> <span title="StringBuilder" class="keyword">match</span>
       <span class="delimiter">{</span>
-        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&gt;'</span> =&gt; <a href="#54913" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;gt;&quot;)" class="string">&quot;&amp;gt;&quot;</span><span class="delimiter">)</span>
-        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&amp;'</span> =&gt; <a href="#54913" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;amp;&quot;)" class="string">&quot;&amp;amp;&quot;</span><span class="delimiter">)</span>
-        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&lt;'</span> =&gt; <a href="#54913" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;lt;&quot;)" class="string">&quot;&amp;lt;&quot;</span><span class="delimiter">)</span>
-        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&quot;'</span> =&gt; <a href="#54913" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;quot;&quot;)" class="string">&quot;&amp;quot;&quot;</span><span class="delimiter">)</span>
-        <span class="keyword">case</span> <a title="StringBuilder" id="56010">c</a> =&gt; <a href="#54913" title="StringBuilder">out</a>.<span title="(x: Char)StringBuilder">append</span><span class="delimiter">(</span><a href="#56010" title="Char">c</a><span class="delimiter">)</span>
+        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&gt;'</span> =&gt; <a href="#55401" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;gt;&quot;)" class="string">&quot;&amp;gt;&quot;</span><span class="delimiter">)</span>
+        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&amp;'</span> =&gt; <a href="#55401" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;amp;&quot;)" class="string">&quot;&amp;amp;&quot;</span><span class="delimiter">)</span>
+        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&lt;'</span> =&gt; <a href="#55401" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;lt;&quot;)" class="string">&quot;&amp;lt;&quot;</span><span class="delimiter">)</span>
+        <span class="keyword">case</span> <span title="StringBuilder" class="char">'&quot;'</span> =&gt; <a href="#55401" title="StringBuilder">out</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&amp;quot;&quot;)" class="string">&quot;&amp;quot;&quot;</span><span class="delimiter">)</span>
+        <span class="keyword">case</span> <a title="StringBuilder" id="56498">c</a> =&gt; <a href="#55401" title="StringBuilder">out</a>.<span title="(x: Char)StringBuilder">append</span><span class="delimiter">(</span><a href="#56498" title="Char">c</a><span class="delimiter">)</span>
       <span class="delimiter">}</span>
     <span class="delimiter">}</span>
-    <a href="#54913" title="StringBuilder">out</a>.<span title="()java.lang.String">toString</span>
+    <a href="#55401" title="StringBuilder">out</a>.<span title="()java.lang.String">toString</span>
   <span class="delimiter">}</span>
 <span class="delimiter">}</span>
 
