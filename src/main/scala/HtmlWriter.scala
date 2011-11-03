@@ -62,7 +62,7 @@ object HtmlWriter
         }yield PathAndLineCount(p,f.lineCount) 
       }.sortBy(_.path)
 
-      val dirList = {
+      val dirList = PathAndLineCount("../",None) :: {
         for{
           f <- dirs
           p <- convertPath(f).toList
