@@ -71,11 +71,14 @@ abstract class Browse extends Plugin
 
       e.groupBy{b => path(b.file.getParentFile)}.map{
         case (dir,files) =>
-//        val directories = files.head.getParentFile.listFiles.collect{case d if d.isDirectory => new File(path(d))}//TODO 
+          val directories = files.head.file.getParentFile.listFiles.collect{
+            case d if d.isDirectory =>
+            FileWithLineCount(new File(path(d)))
+          }//TODO 
           val d = new File( dir , HtmlWriter.IndexRelativePath )
           new File(dir).mkdirs
           val list = files.map{a => a.copy(file = new File(path(a.file) + HtmlWriter.HtmlExtension))}.toList
-          HtmlWriter.writeIndex(d,list) //::: directories.toList ) //TODO
+          HtmlWriter.writeIndex(d,list ::: directories.toList ) //TODO
         // println(d,list.mkString("\n")) // debug
       }
     }catch{case e => e.printStackTrace}
