@@ -36,6 +36,16 @@ object HtmlWriter
 
   case class PathAndLineCount(path:String,lineCount:Option[Int])
 
+  @inline final val header = Seq(
+     "<html>","<head>"
+    ,"""<meta http-equiv="Pragma" content="no-cache">"""
+    ,"""<meta http-equiv="Cache-Control" content="no-store">"""
+    ,"""<meta http-equiv="Cache-Control" content="no-cache">"""
+    ,"""<meta http-equiv="Expires" content="-1">"""
+    ,"</head>"
+    ,"<body>"
+    ,"<ol>").mkString("\n")
+
   def writeIndex(to: File, files: List[FileWithLineCount])
   {
     try{
@@ -46,7 +56,7 @@ object HtmlWriter
     }yield PathAndLineCount(path,f.lineCount)
 
     FileUtil.withWriter(to) { out =>
-      out.write("<html>\n<head><meta http-equiv=\"Expires\" content=\"0\" /></head>\n<body>\n<ol>")
+      out.write(header)
       pathAndCounts.sortBy(_.path).foreach(writeEntry(out))
       out.write("</ol>\n</body>\n</html>")
     }
