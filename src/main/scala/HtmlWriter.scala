@@ -36,32 +36,50 @@ object HtmlWriter
 
   case class PathAndLineCount(path:String,lineCount:Option[Int])
 
-  @inline final val header = Seq(
-     "<html>","<head>"
+  final def header(title:String ) = Seq[Any](
+     "<html>","<head>", <title>{title}</title>
     ,"""<meta http-equiv="Pragma" content="no-cache">"""
     ,"""<meta http-equiv="Cache-Control" content="no-store">"""
     ,"""<meta http-equiv="Cache-Control" content="no-cache">"""
     ,"""<meta http-equiv="Expires" content="-1">"""
     ,"</head>"
     ,"<body>"
-    ,"<ol>").mkString("\n")
+  ).mkString("\n")
 
-  def writeIndex(to: File, files: List[FileWithLineCount])
+  def writeIndex(to: File, files: List[FileWithLineCount], dirs:List[File])
   {
     try{
-    val relativizeAgainst = to.getParentFile
-    val pathAndCounts = for{
-      f     <- files
-      path  <- FileUtil.relativize(relativizeAgainst, f.file).toList
-    }yield PathAndLineCount(path,f.lineCount)
+      val relativizeAgainst = to.getParentFile
 
-    FileUtil.withWriter(to) { out =>
-      out.write(header)
-      pathAndCounts.sortBy(_.path).foreach(writeEntry(out))
-      out.write("</ol>\n</body>\n</html>")
-    }
+      def convertPath(f:File):Option[String] = {
+        FileUtil.relativize(relativizeAgainst, f)
+      }
+
+      val fileList = {
+        for{
+          f <- files
+          p <- convertPath(f.file).toList
+        }yield PathAndLineCount(p,f.lineCount) 
+      }.sortBy(_.path)
+
+      val dirList = {
+        for{
+          f <- dirs
+          p <- convertPath(f).toList
+        }yield PathAndLineCount(p,None) 
+      }.sortBy(_.path)
+
+      FileUtil.withWriter(to) { out =>
+        out.write(header(""))
+        out.write("""<h2>source files</h2><ol>""")
+        fileList.foreach(writeEntry(out))
+        out.write("""</ol><h2>sub directories</h2>""")
+        dirList.foreach(writeEntry(out))
+        out.write("</body>\n</html>")
+      }
     }catch{case e => e.printStackTrace}
   }
+
   import java.io.Writer
   private def writeEntry(out: Writer)(file: PathAndLineCount)
   {
@@ -114,7 +132,7 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
 
   def writeEnd() {
     val indexFile = new File(outputDirectory, IndexRelativePath)
-    writeIndex(indexFile, outputFiles.toList )
+    writeIndex(indexFile, outputFiles.toList ,Nil)
   }
   
 }
