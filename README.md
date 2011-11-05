@@ -43,3 +43,5 @@ http://xuwei-k.github.com/scala-compiler-sxr/scala-compiler-2.9.1/
 
 ### TODO
 * ファイルの行番号表示とかやりたい
+* テストないェ・・・
+* 検索できるようにするとか？
