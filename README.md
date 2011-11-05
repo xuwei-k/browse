@@ -1,4 +1,3 @@
-
 * originalのもの https://github.com/harrah/browse を微妙に改造してます
 * 基本的なことはもとの README を読んでください https://github.com/xuwei-k/browse/blob/master/README_original.md
 
@@ -28,7 +27,7 @@ resolvers += "xuwei-k repo" at "http://xuwei-k.github.com/mvn"
 それ以外は全くオリジナルと同じですが、例えば以下のように設定します
 
 ```scala
-addCompilerPlugin("org.scala-tools.sxr" % "sxr_2.9.1" % "0.2.8-SNAPSHOT"
+addCompilerPlugin("org.scala-tools.sxr" % "sxr_2.9.1" % "0.2.8-SNAPSHOT" )
 
 scalacOptions <+= scalaSource in Compile map { "-P:sxr:base-directory:" + _.getAbsolutePath }
 ```
