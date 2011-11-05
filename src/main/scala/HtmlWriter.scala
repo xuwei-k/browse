@@ -48,6 +48,8 @@ object HtmlWriter
 
   def writeIndex(to: File, files: List[FileWithLineCount], dirs:List[File])
   {
+    if(to.exists)return
+
     try{
       val relativizeAgainst = to.getParentFile
 
@@ -132,7 +134,20 @@ class HtmlWriter(context: OutputWriterContext) extends OutputWriter {
 
   def writeEnd() {
     val indexFile = new File(outputDirectory, IndexRelativePath)
+    allDirs(outputDirectory).foreach{
+      case (idx,subdirs) =>
+      writeIndex(idx,Nil,subdirs)
+    }
     writeIndex(indexFile, outputFiles.toList ,Nil)
+  }
+
+  def allDirs(root:File):Map[File,List[File]] = {
+    import scala.tools.nsc.io.Directory
+    new Directory(root).deepDirs.toList
+      .groupBy(_.parent).toList.sortBy(_._1.toString.length)
+      .tail.toMap.map{case (k,v) => 
+        new File(k.jfile,IndexRelativePath) -> v.map{_.jfile}
+      }
   }
   
 }

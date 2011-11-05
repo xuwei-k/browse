@@ -5,6 +5,7 @@ object XRay extends Build
 {
   lazy val main = Project("sxr", file(".")) settings(
     name := "sxr",
+//    organization := "com.github.xuwei-k",
     organization := "org.scala-tools.sxr",
     version := "0.2.8-SNAPSHOT",
     scalaVersion := "2.9.1",
@@ -15,7 +16,9 @@ object XRay extends Build
     libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ % "provided"),
     jqueryAll <<= target(_ / "jquery-all.js"),
     combineJs <<= combineJquery,
-    resourceGenerators in Compile <+= combineJs.identity
+    resourceGenerators in Compile <+= combineJs.identity,
+//    addCompilerPlugin("org.scala-tools.sxr" %% "sxr" % "0.2.8-SNAPSHOT"),
+    resolvers ++= Seq("xuwei-k repo" at "http://xuwei-k.github.com/mvn/")
   )
 
   val js = config("js") hide
