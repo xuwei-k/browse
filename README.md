@@ -12,7 +12,7 @@
 ### 注意点など
 
 * Pathの区切り文字の処理の関係で、windowsだと正常に動かない可能性大
-* 2.9.1でしか使ってないからほかのversionで動くかどうかしらない。そもそもjarは2.9.1のものしかmaven repositoryにあげていない
+* 2.9.1でしか使ってないからほかのversionで動くかどうかしらない。そもそもjarは2.9.1と2.10.0-M1のものしかmaven repositoryにあげていない
 * sbtのデフォルトのフォルダ構成で使うことを前提としてソースコードのディレクトリなどを検索してしまってる部分があるので、色々もうあれ
 
 ### 使い方
@@ -40,6 +40,8 @@ scalacOptions <+= scalaSource in Compile map { "-P:sxr:base-directory:" + _.getA
 http://xuwei-k.github.com/scala-library-sxr/scala-library-2.9.1/
 
 http://xuwei-k.github.com/scala-compiler-sxr/scala-compiler-2.9.1/
+
+http://xuwei-k.github.com/scala-library-sxr/scala-library-2.10.0-M1/
 
 ### TODO
 * ファイルの行番号表示とかやりたい
