@@ -8,8 +8,8 @@ object XRay extends Build
 //    organization := "com.github.xuwei-k",
     organization := "org.scala-tools.sxr",
     version := "0.2.8-SNAPSHOT",
-    scalaVersion := "2.9.1",
-    crossScalaVersions ++= Seq("2.9.0-1","2.8.1"),
+    scalaVersion := "2.10.0-M1",
+    crossScalaVersions ++= Seq("2.9.1","2.9.0-1","2.8.1"),
     scalacOptions ++= Seq("-deprecation","-unchecked"),
     ivyConfigurations += js,
     libraryDependencies ++= dependencies,
@@ -22,10 +22,10 @@ object XRay extends Build
   )
 
   val js = config("js") hide
-  
+
   val combineJs = TaskKey[Seq[File]]("combine-js")
   val jqueryAll = SettingKey[File]("jquery-all")
-  
+
   val jquery_version = "1.3.2"
   val jquery_scrollto_version = "1.4.2"
   val jquery_qtip_version = "1.0.0-rc3"
