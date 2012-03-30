@@ -9,7 +9,7 @@ object XRay extends Build
     organization := "org.scala-tools.sxr",
     version := "0.2.8-SNAPSHOT",
     scalaVersion := "2.10.0-M2",
-    crossScalaVersions ++= Seq("2.9.1","2.9.0-1","2.8.1"),
+    crossScalaVersions ++= Seq("2.9.1","2.9.0-1","2.8.2","2.8.1"),
     scalacOptions ++= Seq("-deprecation","-unchecked"),
     ivyConfigurations += js,
     libraryDependencies ++= dependencies,
@@ -18,7 +18,10 @@ object XRay extends Build
     combineJs <<= combineJquery,
     resourceGenerators in Compile <+= combineJs.identity,
 //    addCompilerPlugin("org.scala-tools.sxr" %% "sxr" % "0.2.8-SNAPSHOT"),
-    resolvers ++= Seq("xuwei-k repo" at "http://xuwei-k.github.com/mvn/")
+    resolvers ++= Seq("xuwei-k repo" at "http://xuwei-k.github.com/mvn/"),
+    publishTo := sys.env.get("MAVEN_DIRECTORY").map{ dir =>
+      Resolver.file("gh-pages",file(dir))
+    }
   )
 
   val js = config("js") hide
