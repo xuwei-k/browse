@@ -9,7 +9,7 @@ object XRay extends Build
     organization := "org.scala-tools.sxr",
     version := "0.2.8-SNAPSHOT",
     scalaVersion := "2.10.0-M2",
-    crossScalaVersions ++= Seq("2.9.1","2.9.0-1","2.8.2","2.8.1"),
+    crossScalaVersions ++= Seq("2.9.2","2.9.1","2.9.0-1","2.8.2","2.8.1"),
     scalacOptions ++= Seq("-deprecation","-unchecked"),
     ivyConfigurations += js,
     libraryDependencies ++= dependencies,
