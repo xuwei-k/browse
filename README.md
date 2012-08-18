@@ -1,3 +1,5 @@
+# browse [![Build Status](https://secure.travis-ci.org/xuwei-k/browse.png)](http://travis-ci.org/xuwei-k/browse)
+
 * originalのもの https://github.com/harrah/browse を微妙に改造してます
 * 基本的なことはもとの README を読んでください https://github.com/xuwei-k/browse/blob/master/README_original.md
 
