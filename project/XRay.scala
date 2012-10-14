@@ -8,7 +8,7 @@ object XRay extends Build
 //    organization := "com.github.xuwei-k",
     organization := "org.scala-tools.sxr",
     version := "0.2.8-SNAPSHOT",
-    scalaVersion := "2.10.0-M6",
+    scalaVersion := "2.10.0-RC1",
     crossVersion := CrossVersion.full,
     crossScalaVersions ++= Seq("2.9.2","2.9.1","2.9.0-1","2.8.2","2.8.1"),
     scalacOptions ++= Seq("-deprecation","-unchecked"),
