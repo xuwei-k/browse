@@ -22,7 +22,7 @@ github page に maven リポジトリがあってそこに置いてあります�
 なので、例えばsbtならば以下を`build.sbt`に書けば使えるはずです
 
 ```scala
-resolvers += "xuwei-k repo" at "http://xuwei-k.github.com/mvn"
+resolvers += "xuwei-k repo" at "http://xuwei-k.github.io/mvn"
 ```
 
 それ以外は全くオリジナルと同じですが、例えば以下のように設定します
