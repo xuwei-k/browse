@@ -1,3 +1,5 @@
+_NOTE: This project is UNSUPPORTED. It's been forked into sbt organization just to do the minimal maintenance required by sbt project._
+
 Browsable Scala source code in HTML with:
 
 - syntax highlighting
