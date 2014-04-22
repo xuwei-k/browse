@@ -1,0 +1,1 @@
+libraryDependencies += "com.googlecode.java-diff-utils" % "diffutils" % "1.2.1"

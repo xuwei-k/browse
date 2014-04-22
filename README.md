@@ -19,6 +19,20 @@ $ sbt package
 
 This produces a compiler plugin in target/.
 
+
+To test, either run the tests directly:
+
+```
+$ sbt test/test
+$ sbt testLink/test
+```
+
+Or run the all-encompassing command:
+
+```
+$ sbt testAll
+```
+
 ## Usage
 
 Add the following options to your compile command for your project:
