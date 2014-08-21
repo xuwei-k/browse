@@ -10,6 +10,7 @@ object XRay extends Build {
         organization in ThisBuild :=  "org.improving",
              version in ThisBuild :=  "1.0.0-M1",
         scalaVersion in ThisBuild :=  "2.11.2",
+                         licenses :=  Seq("BSD New" -> file("LICENSE").toURL),
                 ivyConfigurations +=  js,
                        exportJars :=  true,
               libraryDependencies ++= dependencies,
