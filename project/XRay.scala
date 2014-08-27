@@ -6,19 +6,20 @@ object XRay extends Build {
   lazy val testAll = taskKey[Unit]("Runs all tests for this project.")
 
   lazy val main = Project("sxr", file(".")) settings(
-                             name :=  "sxr",
-        organization in ThisBuild :=  "org.improving",
-             version in ThisBuild :=  "1.0.0",
-        scalaVersion in ThisBuild :=  "2.11.2",
-                         licenses :=  Seq("BSD New" -> file("LICENSE").toURL),
-                ivyConfigurations +=  js,
-                       exportJars :=  true,
-              libraryDependencies ++= dependencies,
-              libraryDependencies +=  "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
-                        jqueryAll :=  target.value / "jquery-all.js",
-                        combineJs :=  combineJquery(update.value, jqueryAll.value, streams.value.log),
-    resourceGenerators in Compile <+= combineJs,
-                         commands +=  Command.command("testAll")("test/test" :: "testLink/test" :: _)
+                               name :=  "sxr",
+          organization in ThisBuild :=  "org.improving",
+               version in ThisBuild :=  "1.0.1",
+          scalaVersion in ThisBuild :=  "2.11.2",
+    crossScalaVersions in ThisBuild :=  List("2.11.2", "2.10.4"),
+                           licenses :=  Seq("BSD New" -> file("LICENSE").toURL),
+                  ivyConfigurations +=  js,
+                         exportJars :=  true,
+                libraryDependencies ++= dependencies,
+                libraryDependencies +=  "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
+                          jqueryAll :=  target.value / "jquery-all.js",
+                          combineJs :=  combineJquery(update.value, jqueryAll.value, streams.value.log),
+      resourceGenerators in Compile <+= combineJs,
+                           commands +=  Command.command("testAll")("test/test" :: "testLink/test" :: _)
   ) settings (crossSourceSettings: _*)
 
   lazy val test: Project = project.dependsOn(main % CompilerPlugin).settings(testProjectSettings: _*)
