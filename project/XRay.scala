@@ -9,8 +9,8 @@ object XRay extends Build {
                                name :=  "sxr",
           organization in ThisBuild :=  "org.improving",
                version in ThisBuild :=  "1.0.1",
-          scalaVersion in ThisBuild :=  "2.11.2",
-    crossScalaVersions in ThisBuild :=  List("2.11.2", "2.10.4"),
+          scalaVersion in ThisBuild :=  "2.11.4",
+    crossScalaVersions in ThisBuild :=  List("2.11.4", "2.10.4"),
                            licenses :=  Seq("BSD New" -> file("LICENSE").toURL),
                   ivyConfigurations +=  js,
                          exportJars :=  true,
@@ -44,7 +44,7 @@ object XRay extends Build {
   )
 
   def testProjectSettings = Seq(
-    libraryDependencies +=  "org.scala-lang.modules" %% "scala-xml" % "1.0.1",
+    libraryDependencies +=  "org.scala-lang.modules" %% "scala-xml" % "1.0.2",
     autoCompilerPlugins :=  true,
      compile in Compile <<= (compile in Compile).dependsOn(clean),
               Keys.test :=  {
