@@ -8,7 +8,7 @@ object XRay extends Build {
   lazy val main = Project("sxr", file(".")) settings(
                                name :=  "sxr",
           organization in ThisBuild :=  "org.improving",
-               version in ThisBuild :=  "1.0.1",
+               version in ThisBuild :=  "1.0.2",
           scalaVersion in ThisBuild :=  "2.11.8",
     crossScalaVersions in ThisBuild :=  List("2.12.1", "2.11.8", "2.10.6"),
                            licenses :=  Seq("BSD New" -> file("LICENSE").toURL),

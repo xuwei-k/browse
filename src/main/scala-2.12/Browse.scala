@@ -113,15 +113,13 @@ abstract class Browse extends Plugin
 
                 class Scan extends syntaxAnalyzer.UnitScanner(unit)
                 {
-                        override def deprecationWarning(off: Int, msg: String) {}
+                        override def deprecationWarning(off: Int, msg: String, since: String) {}
                         override def error(off: Int, msg: String) {}
                         override def incompleteInputError(off: Int, msg: String) {}
 
-                        override def skipComment(): Boolean = {
-                                super.skipComment() && {
-                                        addComment(offset, charOffset - 2)
-                                        true
-                                }
+                        override def finishDocComment(): Unit = {
+                            super.finishDocComment()
+                            addComment(offset, charOffset - 2)
                         }
                         override def nextToken() {
                                 val offset0 = offset
@@ -178,7 +176,7 @@ abstract class Browse extends Plugin
                 !s.exists ||
                 s.isPackage || // nothing done with packages
                 s.isImplClass
-                
+
         private class Traverse(tokens: wrap.SortedSetWrapper[Token], source: SourceFile, index: TopLevelIndex) extends Traverser
         {
                 // magic method #1
@@ -214,7 +212,7 @@ abstract class Browse extends Plugin
                                         handleDefault()
                         }
                 }
-                
+
                 // magic method #2
                 private def process(t: Tree, index: TopLevelIndex)
                 {
@@ -295,9 +293,10 @@ abstract class Browse extends Plugin
                                 val sType =
                                         t match
                                         {
-                                                case ad: ApplyDynamic => ad.qual.tpe.memberType(ad.symbol)
-                                                case s: Select => s.qualifier.tpe.memberType(s.symbol)
-                                                case _ => ts.owner.thisType.memberType(ts)
+                                                case ad: ApplyDynamic             => ad.qual.tpe.memberType(ad.symbol)
+                                                case s: Select                    => s.qualifier.tpe.memberType(s.symbol)
+                                                // case vd: ValDef if vd.mods.isLazy => ts.owner.thisType.memberType(ts).finalResultType // => Int to Int.
+                                                case _                            => ts.owner.thisType.memberType(ts)
                                         }
                                 if(sType != null)
                                 {
