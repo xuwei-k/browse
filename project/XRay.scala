@@ -9,8 +9,8 @@ object XRay extends Build {
                                name :=  "sxr",
           organization in ThisBuild :=  "org.improving",
                version in ThisBuild :=  "1.0.1",
-          scalaVersion in ThisBuild :=  "2.11.4",
-    crossScalaVersions in ThisBuild :=  List("2.11.4", "2.10.4"),
+          scalaVersion in ThisBuild :=  "2.11.8",
+    crossScalaVersions in ThisBuild :=  List("2.12.1", "2.11.8", "2.10.6"),
                            licenses :=  Seq("BSD New" -> file("LICENSE").toURL),
                   ivyConfigurations +=  js,
                          exportJars :=  true,
@@ -44,9 +44,12 @@ object XRay extends Build {
   )
 
   def testProjectSettings = Seq(
-    libraryDependencies +=  "org.scala-lang.modules" %% "scala-xml" % "1.0.2",
+    libraryDependencies ++= (scalaBinaryVersion.value match {
+      case "2.10" => Seq()
+      case _ =>      Seq("org.scala-lang.modules" %% "scala-xml" % "1.0.6")
+    }),
     autoCompilerPlugins :=  true,
-     compile in Compile <<= (compile in Compile).dependsOn(clean),
+     compile in Compile := (compile in Compile).dependsOn(clean).value,
               Keys.test :=  {
       val _ = (compile in Compile).value
       val out = (classDirectory in Compile).value
@@ -81,6 +84,8 @@ object XRay extends Build {
   def appendJs(js: File, to: File): Unit =
     Using.fileInputStream(js)(in => Using.fileOutputStream(append = true)(to)(out => IO.transfer(in, out)))
 
+  def isUpdate = sys.props contains "sxr.update"
+
   def checkOutput(sxrDir: File, expectedDir: File, log: Logger) {
     val actual = filesToCompare(sxrDir)
     val expected = filesToCompare(expectedDir)
@@ -99,12 +104,19 @@ object XRay extends Build {
       val expectedFile = expected.reverse(relativePath).head
       val deltas = filteredDifferences(actualFile, expectedFile)
       if(!deltas.isEmpty) {
-        // TODO - Display diffs.
-        val diffDisplay =
-          deltas.map(x => s"${prettyDelta(x)}").mkString("\n")
-        log.error(s"$relativePath\n\t$actualFile\n\t$expectedFile\n$diffDisplay")
+        if (isUpdate) {
+          val cmd = s"cp $actualFile $expectedFile"
+          log.info(s"Running: $cmd")
+          scala.sys.process.Process(cmd).run()
+        }
+        else {
+          // TODO - Display diffs.
+          val diffDisplay =
+            deltas.map(x => s"${prettyDelta(x)}").mkString("\n")
+          log.error(s"$relativePath\n\t$actualFile\n\t$expectedFile\n$diffDisplay")
+        }
       }
-      deltas.isEmpty
+      deltas.isEmpty || isUpdate
     }
     if(different.nonEmpty)
       error("Actual content differed from expected content")
