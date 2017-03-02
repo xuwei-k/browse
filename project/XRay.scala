@@ -54,7 +54,7 @@ object XRay extends Build {
       val _ = (compile in Compile).value
       val out = (classDirectory in Compile).value
       val base = baseDirectory.value
-      checkOutput(out / "../classes.sxr", base / "expected", streams.value.log)
+      checkOutput(out / "../classes.sxr", base / "expected" / scalaBinaryVersion.value, streams.value.log)
     }
   )
 
