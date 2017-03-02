@@ -10,53 +10,53 @@
     </head>
     <body>
         <pre>
-<span class="keyword">package</span> defs
+package defs
 
-<span class="keyword">object</span> <a title="defs.Defs.type" id="defs.Defs">Defs</a>
+object <a title="defs.Defs.type" id="defs.Defs">Defs</a>
 <a href="#defs.Defs" title="defs.Defs.type" class="delimiter">{</a>
-	<span class="keyword">class</span> <a title="class A extends AnyRef" id="defs.Defs;A">A</a>
-	<span class="keyword">class</span> <a title="class B[T] extends AnyRef" id="defs.Defs;B">B</a><span class="delimiter">[</span><a title="" id="defs.Defs;B;T">T</a><span class="delimiter">]</span> <a href="#defs.Defs;B" title="defs.Defs.B[T]" class="delimiter">{</a>
-		<span class="keyword">def</span> <a title="(t: T)T" id="defs.Defs;B.x">x</a><span class="delimiter">(</span><a title="T" id="defs.Defs;B.x.t">t</a>: <a href="#defs.Defs;B;T" title="T">T</a><span class="delimiter">)</span>: <a href="#defs.Defs;B;T" title="T">T</a> = <a href="#defs.Defs;B.x.t" title="T">t</a>
+	class <a title="class A extends AnyRef" id="defs.Defs;A">A</a>
+	class <a title="class B[T] extends AnyRef" id="defs.Defs;B">B</a><span class="delimiter">[</span><a title="" id="defs.Defs;B;T">T</a><span class="delimiter">]</span> <a href="#defs.Defs;B" title="defs.Defs.B[T]" class="delimiter">{</a>
+		def <a title="(t: T)T" id="defs.Defs;B.x">x</a><span class="delimiter">(</span><a title="T" id="defs.Defs;B.x.t">t</a>: <a href="#defs.Defs;B;T" title="T">T</a><span class="delimiter">)</span>: <a href="#defs.Defs;B;T" title="T">T</a> = <a href="#defs.Defs;B.x.t" title="T">t</a>
 	<span class="delimiter">}</span>
-	<span class="keyword">class</span> <a title="class C[T &lt;: Y, Y] extends AnyRef" id="defs.Defs;C">C</a><span class="delimiter">[</span><a title=" &lt;: Y" id="defs.Defs;C;T">T</a> &lt;: Y, <a title="" id="defs.Defs;C;Y">Y</a><span class="delimiter">]</span>
-	<span class="keyword">class</span> <a title="class D[T] extends AnyRef" id="defs.Defs;D">D</a><span class="delimiter">[</span><a title="" id="defs.Defs;D;T">T</a><span class="delimiter">]</span><a href="#defs.Defs;D" title="defs.Defs.D[T]" class="delimiter">(</a><a title="T" id="defs.Defs;D.t">t</a>: <a href="#defs.Defs;D;T" title="T">T</a><span class="delimiter">)</span>
-	<span class="keyword">class</span> <a title="class E extends defs.Defs.B[Int]" id="defs.Defs;E">E</a> <a href="#defs.Defs;E" title="defs.Defs.E" class="keyword">extends</a> <a href="#defs.Defs;B" title="defs.Defs.B[Int]">B</a><span class="delimiter">[</span>Int<span class="delimiter">]</span>
+	class <a title="class C[T &lt;: Y, Y] extends AnyRef" id="defs.Defs;C">C</a><span class="delimiter">[</span><a title=" &lt;: Y" id="defs.Defs;C;T">T</a> &lt;: Y, <a title="" id="defs.Defs;C;Y">Y</a><span class="delimiter">]</span>
+	class <a title="class D[T] extends AnyRef" id="defs.Defs;D">D</a><span class="delimiter">[</span><a title="" id="defs.Defs;D;T">T</a><span class="delimiter">]</span><a href="#defs.Defs;D" title="defs.Defs.D[T]" class="delimiter">(</a><a title="T" id="defs.Defs;D.t">t</a>: <a href="#defs.Defs;D;T" title="T">T</a><span class="delimiter">)</span>
+	class <a title="class E extends defs.Defs.B[Int]" id="defs.Defs;E">E</a> extends <a href="#defs.Defs;B" title="defs.Defs.B[Int]">B</a><span class="delimiter">[</span>Int<span class="delimiter">]</span>
 
-	<span class="keyword">trait</span> <a title="trait F extends AnyRef" id="defs.Defs;F">F</a>
-	<span class="keyword">trait</span> <a title="trait G extends AnyRef with defs.Defs.F" id="defs.Defs;G">G</a> <span class="keyword">extends</span> <a href="#defs.Defs;F" title="defs.Defs.F">F</a>
-	<span class="keyword">class</span> <a title="class H extends defs.Defs.A with defs.Defs.G" id="defs.Defs;H">H</a> <a href="#defs.Defs;H" title="defs.Defs.H" class="keyword">extends</a> <a href="#defs.Defs;A" title="defs.Defs.A">A</a> <span class="keyword">with</span> <a href="#defs.Defs;G" title="defs.Defs.G">G</a>
-	<span class="keyword">class</span> <a title="class I extends AnyRef with defs.Defs.F" id="defs.Defs;I">I</a> <a href="#defs.Defs;I" title="defs.Defs.I" class="keyword">extends</a> <a href="#defs.Defs;F" title="defs.Defs.F">F</a>
+	trait <a title="trait F extends AnyRef" id="defs.Defs;F">F</a>
+	trait <a title="trait G extends AnyRef with defs.Defs.F" id="defs.Defs;G">G</a> extends <a href="#defs.Defs;F" title="defs.Defs.F">F</a>
+	class <a title="class H extends defs.Defs.A with defs.Defs.G" id="defs.Defs;H">H</a> extends <a href="#defs.Defs;A" title="defs.Defs.A">A</a> with <a href="#defs.Defs;G" title="defs.Defs.G">G</a>
+	class <a title="class I extends AnyRef with defs.Defs.F" id="defs.Defs;I">I</a> extends <a href="#defs.Defs;F" title="defs.Defs.F">F</a>
 
-	<span class="keyword">private</span><span class="delimiter">[</span>defs<span class="delimiter">]</span> <span class="keyword">final</span> <span class="keyword">class</span> <a title="class J extends defs.Defs.H with defs.Defs.G" id="defs.Defs;J">J</a> <a href="#defs.Defs;J" title="defs.Defs.J" class="keyword">private</a><span class="delimiter">(</span><span class="keyword">val</span> <a title="Int" id="defs.Defs;J.i">i</a>: <span title="Int">Int</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#defs.Defs;H" title="defs.Defs.H">H</a> <span class="keyword">with</span> <a href="#defs.Defs;G" title="defs.Defs.G">G</a>
+	private<span class="delimiter">[</span>defs<span class="delimiter">]</span> final class <a title="class J extends defs.Defs.H with defs.Defs.G" id="defs.Defs;J">J</a> private<span class="delimiter">(</span>val <a title="Int" id="defs.Defs;J.i">i</a>: <span title="Int">Int</span><span class="delimiter">)</span> extends <a href="#defs.Defs;H" title="defs.Defs.H">H</a> with <a href="#defs.Defs;G" title="defs.Defs.G">G</a>
 
-	<span class="keyword">var</span> <a title="Int" id="defs.Defs.v_=">v</a>: <span title="Int">Int</span> = <span title="Int(3)" class="int">3</span>
+	var <a title="Int" id="defs.Defs.v_=">v</a>: <span title="Int">Int</span> = <span title="Int(3)" class="int">3</span>
 	<a href="#defs.Defs.v_=" title="(x$1: Int)Unit">v</a> = <span title="Int(2)" class="int">2</span>
 
-	<span class="keyword">lazy</span> <span class="keyword">val</span> <a title="Int" id="defs.Defs.x">x</a> = <a href="#defs.Defs.v_=" title="=&gt; Int">v</a>
-	<span class="keyword">lazy</span> <span class="keyword">val</span> <a title="Int" id="defs.Defs.xx">xx</a>: <span title="Int">Int</span> = <span title="Int(3)" class="int">3</span>
+	lazy val <a title="=&gt; Int" id="defs.Defs.x">x</a> = <a href="#defs.Defs.v_=" title="=&gt; Int">v</a>
+	lazy val <a title="=&gt; Int" id="defs.Defs.xx">xx</a>: <span title="Int">Int</span> = <span title="Int(3)" class="int">3</span>
 
-	<span class="keyword">def</span> <a title="[T](t: T)T" id="defs.Defs.q">q</a><span class="delimiter">[</span><a title="" id="defs.Defs.q;T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="defs.Defs.q.t">t</a>: <a href="#defs.Defs.q;T" title="T">T</a><span class="delimiter">)</span> = <a href="#defs.Defs.q.t" title="T">t</a>
-	<span class="keyword">def</span> <a title="[T](t: T)List[T]" id="defs.Defs.qq(d8d6e73017)">qq</a><span class="delimiter">[</span><a title="" id="defs.Defs.qq(d8d6e73017);T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="defs.Defs.qq(d8d6e73017).t">t</a>: <a href="#defs.Defs.qq(d8d6e73017);T" title="T">T</a><span class="delimiter">)</span>: <span title="List[T]">List</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = <a href="#defs.Defs.qq(d8d6e73017).t" title="T">t</a> <a href="#defs.Defs.qq(d8d6e73017).x$1" title="(x: T)List[T]">::</a> <span title="scala.collection.immutable.Nil.type">Nil</span>
-	<span class="keyword">def</span> <a title="[T](t: T, z: T, b: Boolean)T" id="defs.Defs.qq(34c5763322)">qq</a><span class="delimiter">[</span><a title="" id="defs.Defs.qq(34c5763322);T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="defs.Defs.qq(34c5763322).t">t</a>: <a href="#defs.Defs.qq(34c5763322);T" title="T">T</a>, <a title="T" id="defs.Defs.qq(34c5763322).z">z</a>: <a href="#defs.Defs.qq(34c5763322);T" title="T">T</a>, <a title="Boolean" id="defs.Defs.qq(34c5763322).b">b</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span>: <a href="#defs.Defs.qq(34c5763322);T" title="T">T</a> = <span title="T" class="keyword">if</span><span class="delimiter">(</span><a href="#defs.Defs.qq(34c5763322).b" title="Boolean">b</a><span class="delimiter">)</span> <a href="#defs.Defs.qq(34c5763322).t" title="T">t</a> <span class="keyword">else</span> <a href="#defs.Defs.qq(34c5763322).z" title="T">z</a>
+	def <a title="[T](t: T)T" id="defs.Defs.q">q</a><span class="delimiter">[</span><a title="" id="defs.Defs.q;T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="defs.Defs.q.t">t</a>: <a href="#defs.Defs.q;T" title="T">T</a><span class="delimiter">)</span> = <a href="#defs.Defs.q.t" title="T">t</a>
+	def <a title="[T](t: T)List[T]" id="defs.Defs.qq(d8d6e73017)">qq</a><span class="delimiter">[</span><a title="" id="defs.Defs.qq(d8d6e73017);T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="defs.Defs.qq(d8d6e73017).t">t</a>: <a href="#defs.Defs.qq(d8d6e73017);T" title="T">T</a><span class="delimiter">)</span>: <span title="List[T]">List</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = <a href="#defs.Defs.qq(d8d6e73017).t" title="T">t</a> <a href="#defs.Defs.qq(d8d6e73017).x$1" title="(x: T)List[T]">::</a> <span title="scala.collection.immutable.Nil.type">Nil</span>
+	def <a title="[T](t: T, z: T, b: Boolean)T" id="defs.Defs.qq(34c5763322)">qq</a><span class="delimiter">[</span><a title="" id="defs.Defs.qq(34c5763322);T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="defs.Defs.qq(34c5763322).t">t</a>: <a href="#defs.Defs.qq(34c5763322);T" title="T">T</a>, <a title="T" id="defs.Defs.qq(34c5763322).z">z</a>: <a href="#defs.Defs.qq(34c5763322);T" title="T">T</a>, <a title="Boolean" id="defs.Defs.qq(34c5763322).b">b</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span>: <a href="#defs.Defs.qq(34c5763322);T" title="T">T</a> = if<span class="delimiter">(</span><a href="#defs.Defs.qq(34c5763322).b" title="Boolean">b</a><span class="delimiter">)</span> <a href="#defs.Defs.qq(34c5763322).t" title="T">t</a> else <a href="#defs.Defs.qq(34c5763322).z" title="T">z</a>
 
-	<span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; Int" id="defs.Defs.z">z</a>: <span title="Int">Int</span> = <span class="delimiter">(</span><span title="defs.Defs.E" class="keyword">new</span> <a href="#defs.Defs;E" title="defs.Defs.E">E</a><span class="delimiter">)</span>.<a href="#defs.Defs;B.x" title="(t: Int)Int">x</a><span class="delimiter">(</span><span title="Int(3)" class="int">3</span><span class="delimiter">)</span>
+	private<span class="delimiter">[</span>this<span class="delimiter">]</span> def <a title="=&gt; Int" id="defs.Defs.z">z</a>: <span title="Int">Int</span> = <span class="delimiter">(</span>new <a href="#defs.Defs;E" title="defs.Defs.E">E</a><span class="delimiter">)</span>.<a href="#defs.Defs;B.x" title="(t: Int)Int">x</a><span class="delimiter">(</span><span title="Int(3)" class="int">3</span><span class="delimiter">)</span>
 
-	<span class="keyword">def</span> <a title="=&gt; Int" id="defs.Defs.nested">nested</a> = <span class="delimiter">{</span>
-		<span class="keyword">val</span> <span title="Int">v</span> = <a href="#defs.Defs.x" title="=&gt; Int">x</a>
-		<span class="keyword">def</span> <span title="=&gt; Int">xx</span>: <span title="Int">Int</span> = <span class="delimiter">{</span>
-			<span class="keyword">val</span> <a title="Int" id="defs.Defs.nested.xx.v">v</a> = <a href="#defs.Defs.q" title="(t: Int)Int">q</a><span class="delimiter">(</span><span title="Int(2)" class="int">2</span><span class="delimiter">)</span>
-			<span class="keyword">val</span> <a title="Int" id="defs.Defs.nested.xx.x">x</a> = <span class="delimiter">{</span>
-				<a href="#defs.Defs.nested.xx.v" title="Int">v</a> <span title="(x: Int)Int">+</span> <span title="=&gt; Int">xx</span>
+	def <a title="=&gt; Int" id="defs.Defs.nested">nested</a> = <span class="delimiter">{</span>
+		val <span title="Int">v</span> = <a href="#defs.Defs.x" title="=&gt; Int">x</a>
+		def <span title="=&gt; Int">xx</span>: <span title="Int">Int</span> = <span class="delimiter">{</span>
+			val <a title="Int" id="defs.Defs.nested.xx.v">v</a> = <a href="#defs.Defs.q" title="(t: Int)Int">q</a><span class="delimiter">(</span><span title="Int(2)" class="int">2</span><span class="delimiter">)</span>
+			val x = <span class="delimiter">{</span>
+				<a href="#defs.Defs.nested.xx.v" title="Int">v</a> <a title="Int" id="defs.Defs.nested.xx.x">+</a> <span title="=&gt; Int">xx</span>
 			<span class="delimiter">}</span>
 			<a href="#defs.Defs.nested.xx.x" title="Int">x</a> <span title="(x: Int)Int">+</span> <a href="#defs.Defs.nested.xx.v" title="Int">v</a>
 		<span class="delimiter">}</span>
 
 		<span class="comment">// TODO: scheme that handles unnamed, nested scopes</span>
 		<span class="delimiter">{</span>
-			<span class="keyword">val</span> <span title="Int">v</span> = <span title="=&gt; Int">xx</span>
+			val <span title="Int">v</span> = <span title="=&gt; Int">xx</span>
 
 			<span class="delimiter">{</span>
-				<span class="keyword">val</span> <span title="Int">xx</span> = <span title="Int(3)" class="int">3</span>
+				val <span title="Int">xx</span> = <span title="Int(3)" class="int">3</span>
 				<span title="Int">v</span> <span title="(x: Int)Int">+</span> <span title="Int">xx</span>
 			<span class="delimiter">}</span>
 		<span class="delimiter">}</span>
